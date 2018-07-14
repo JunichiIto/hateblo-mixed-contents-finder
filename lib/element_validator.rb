@@ -8,11 +8,12 @@ class ElementValidator
   end
 
   def validate(page)
+    entry_title = page.search('.entry-title')[0].text.strip
     nodes = page.search(".entry-content #{tag}")
     nodes.map { |node|
       link_url = node[attr]
       if link_url && link_url.match?(/^http:/)
-        InvalidContent.new(page.uri, tag, attr, link_url)
+        InvalidContent.new(page.uri, entry_title, tag, attr, link_url)
       end
     }.compact
   end

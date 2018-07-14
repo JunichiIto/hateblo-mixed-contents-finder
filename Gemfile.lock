@@ -9,6 +9,9 @@ GEM
     domain_name (0.5.20180417)
       unf (>= 0.0.5, < 1.0.0)
     hashdiff (0.3.7)
+    hatenablog (0.5.2)
+      nokogiri
+      oauth
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     mechanize (2.7.3)
@@ -27,6 +30,7 @@ GEM
     nokogiri (1.8.4)
       mini_portile2 (~> 2.3.0)
     ntlm-http (0.1.1)
+    oauth (0.5.4)
     public_suffix (3.0.2)
     rspec (3.7.0)
       rspec-core (~> 3.7.0)
@@ -56,6 +60,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  hatenablog
   mechanize
   nokogiri
   rspec

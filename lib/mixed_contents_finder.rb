@@ -1,5 +1,3 @@
-require 'open-uri'
-require 'nokogiri'
 require 'mechanize'
 require './lib/element_validator'
 require './lib/invalid_content'
@@ -9,8 +7,8 @@ class MixedContentsFinder
 
   def run(limit = 3)
     invalid_contents = []
-    # archive_url = 'http://blog.jnito.com/archive'
-    archive_url = 'http://blog.jnito.com/archive?page=6'
+    archive_url = 'http://blog.jnito.com/archive'
+    # archive_url = 'http://blog.jnito.com/archive?page=6'
     agent = Mechanize.new
     page = agent.get(archive_url)
 
@@ -55,7 +53,7 @@ class MixedContentsFinder
   ]
 
   def validate_page(url)
-    puts "Validate #{url}..."
+    puts "[#{Time.now.strftime("%H:%M:%S")}] Validate #{url}..."
 
     agent = Mechanize.new
     page = agent.get(url)

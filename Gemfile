@@ -9,3 +9,4 @@ gem 'mechanize'
 gem 'rspec'
 gem 'vcr', require: false
 gem 'webmock', require: false
+gem 'hatenablog'

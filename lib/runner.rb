@@ -1,6 +1,6 @@
 require './lib/mixed_contents_finder'
 require 'fileutils'
-invalid_contents = MixedContentsFinder.new.run(10)
+invalid_contents = MixedContentsFinder.new.run(nil)
 path = './result.txt'
 if File.exist?(path)
   FileUtils.rm(path)

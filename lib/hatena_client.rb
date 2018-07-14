@@ -6,7 +6,7 @@ class HatenaClient
     entry_id = fetch_id(entry_url)
     Hatenablog::Client.create do |blog|
       posted_entry = blog.get_entry(entry_id)
-      puts "Updating #{entry_url} #{posted_entry.title}"
+      puts "[#{Time.now.strftime("%H:%M:%S")}] Updating #{entry_url} #{posted_entry.title}"
 
       updated_entry = blog.update_entry(
         posted_entry.id,

@@ -3,10 +3,26 @@ require 'nokogiri'
 require 'mechanize'
 
 class MixedContentsFinder
-  def run
-    url = 'http://blog.jnito.com/entry/2018/07/12/075334'
-    agent = Mechanize.new
-    page = agent.get(url)
+  def initialize
+    @agent = Mechanize.new
+  end
+
+  def run(limit = 3)
+    archive_url = 'http://blog.jnito.com/archive'
+    page = @agent.get(archive_url)
+    links = page.search('.entry-title-link')
+    links.each.with_index(1) do |link, i|
+      if limit && i > limit
+        break
+      end
+      url = link['href']
+      validate_page(url)
+    end
+  end
+
+  def validate_page(url)
+    puts "Validate #{url}..."
+    page = @agent.get(url)
     validate_image(page)
     validate_source(page)
     validate_script(page)
@@ -50,8 +66,11 @@ class MixedContentsFinder
   def validate_script(page)
     nodes = page.search(".entry-content script")
     nodes.each do |node|
-      puts 'script'
-      puts node['src']
+      src = node['src']
+      if src.match?(/^http:/)
+        puts 'script'
+        puts src
+      end
     end
   end
 

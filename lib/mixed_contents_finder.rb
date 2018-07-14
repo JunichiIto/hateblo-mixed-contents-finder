@@ -1,38 +1,83 @@
 require 'open-uri'
 require 'nokogiri'
 require 'mechanize'
+require './lib/element_validator'
+require './lib/invalid_content'
 
 class MixedContentsFinder
-  def initialize
-    @agent = Mechanize.new
-  end
+  SLEEP_SEC = 1
 
   def run(limit = 3)
-    archive_url = 'http://blog.jnito.com/archive'
-    page = @agent.get(archive_url)
-    links = page.search('.entry-title-link')
-    links.each.with_index(1) do |link, i|
-      if limit && i > limit
+    invalid_contents = []
+    # archive_url = 'http://blog.jnito.com/archive'
+    archive_url = 'http://blog.jnito.com/archive?page=6'
+    agent = Mechanize.new
+    page = agent.get(archive_url)
+
+    counter = 0
+    loop do
+      if limit && counter > limit
         break
       end
-      url = link['href']
-      validate_page(url)
+      puts page.uri
+      links = page.search('.entry-title-link')
+      links.each do |link|
+        counter += 1
+        if limit && counter > limit
+          break
+        end
+        url = link['href']
+        invalid_contents += validate_page(url)
+      end
+      next_page_link = page.search('.pager-next a')&.first
+      if next_page_link
+        page = agent.get(next_page_link['href'])
+      else
+        puts 'End.'
+        break
+      end
     end
+    invalid_contents
   end
+
+  VALIDATE_CONDITIONS = [
+    %w(img src),
+    %w(img srcset),
+    %w(source src),
+    %w(source srcset),
+    %w(script src),
+    %w(video src),
+    %w(audio src),
+    %w(iframe src),
+    %w(embed src),
+    %w(form action),
+    %w(object data),
+  ]
 
   def validate_page(url)
     puts "Validate #{url}..."
-    page = @agent.get(url)
-    validate_image(page)
-    validate_source(page)
-    validate_script(page)
-    validate_video(page)
-    validate_audio(page)
-    validate_iframe(page)
-    validate_embed(page)
-    validate_link(page)
-    validate_form(page)
-    validate_object(page)
+
+    agent = Mechanize.new
+    page = agent.get(url)
+    invalid_contents = VALIDATE_CONDITIONS.flat_map { |tag, attr|
+      validator = ElementValidator.new(tag, attr)
+      validator.validate(page)
+    }.compact
+
+    # validate_image(page)
+    # validate_source(page)
+    # validate_script(page)
+    # validate_video(page)
+    # validate_audio(page)
+    # validate_iframe(page)
+    # validate_embed(page)
+
+    [*invalid_contents, *validate_link(page)].tap do
+      sleep SLEEP_SEC
+    end
+    # validate_form(page)
+    # validate_object(page)
+
   end
 
   # <img>要素のsrc属性およびsrcset属性
@@ -67,7 +112,7 @@ class MixedContentsFinder
     nodes = page.search(".entry-content script")
     nodes.each do |node|
       src = node['src']
-      if src.match?(/^http:/)
+      if src && src.match?(/^http:/)
         puts 'script'
         puts src
       end
@@ -116,12 +161,11 @@ class MixedContentsFinder
   # rel属性にstylesheetが指定されている<link>要素のhref属性
   def validate_link(page)
     nodes = page.search(".entry-content link")
-    nodes.each do |node|
+    nodes.map { |node|
       if node['rel'] == 'stylesheet'
-        puts 'link'
-        puts node['href']
+        InvalidContent.new(page.uri, 'link', 'href', node['href'])
       end
-    end
+    }.compact
   end
 
   # <form>要素のaction属性

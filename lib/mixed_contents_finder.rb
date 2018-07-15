@@ -5,6 +5,10 @@ require './lib/invalid_content'
 class MixedContentsFinder
   SLEEP_SEC = 1
 
+  def initialize(layout: false)
+    @layout = true
+  end
+
   def run(limit = 3)
     invalid_contents = []
     archive_url = 'http://blog.jnito.com/archive'
@@ -57,7 +61,12 @@ class MixedContentsFinder
     agent = Mechanize.new
     page = agent.get(url)
     invalid_contents = VALIDATE_CONDITIONS.flat_map { |tag, attr|
-      validator = ElementValidator.new(tag, attr)
+      validator =
+        if @layout
+          ElementValidator.new(tag, attr, root: '')
+        else
+          ElementValidator.new(tag, attr)
+        end
       validator.validate(page)
     }.compact
 
@@ -68,11 +77,29 @@ class MixedContentsFinder
 
   # rel属性にstylesheetが指定されている<link>要素のhref属性
   def validate_link(page)
-    nodes = page.search(".entry-content link")
+    entry_title = find_entry_title(page)
+    entry_id = find_entry_id(page)
+    nodes =
+      if @layout
+        page.search("link")
+      else
+        page.search(".entry-content link")
+      end
     nodes.map { |node|
       if node['rel'] == 'stylesheet'
-        InvalidContent.new(page.uri, 'link', 'href', node['href'])
+        link_url = node['href']
+        if link_url && link_url.match?(/^http:/)
+          InvalidContent.new(page.uri, entry_id, entry_title, tag, attr, link_url)
+        end
       end
     }.compact
+  end
+
+  def find_entry_title(page)
+    page.search('.entry-title')[0].text.strip
+  end
+
+  def find_entry_id(page)
+    page.search('article.entry')[0]['data-uuid']
   end
 end

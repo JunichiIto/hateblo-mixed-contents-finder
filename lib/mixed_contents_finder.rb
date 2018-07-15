@@ -6,7 +6,7 @@ class MixedContentsFinder
   SLEEP_SEC = 1
 
   def initialize(layout: false)
-    @layout = true
+    @layout = layout
   end
 
   def run(limit = 3)

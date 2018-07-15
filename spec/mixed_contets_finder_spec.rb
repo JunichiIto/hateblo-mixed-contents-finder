@@ -1,7 +1,7 @@
 describe MixedContentsFinder do
   example 'each entry' do
     finder = MixedContentsFinder.new
-    invalid_contents = finder.validate_page('http://blog.jnito.com/entry/2015/10/29/053000')
+    invalid_contents = finder.validate_page('http://blog.jnito.com/entry/2012/11/02/063211')
     unless invalid_contents.empty?
       puts invalid_contents
     end

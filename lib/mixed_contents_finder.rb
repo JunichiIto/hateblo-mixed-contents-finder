@@ -54,6 +54,7 @@ class MixedContentsFinder
     %w(embed src),
     %w(form action),
     %w(object data),
+    %w(link href),
   ]
 
   def validate_page(url)
@@ -71,36 +72,8 @@ class MixedContentsFinder
       validator.validate(page)
     }.compact
 
-    [*invalid_contents, *validate_link(page)].tap do
+    invalid_contents.tap do
       sleep SLEEP_SEC
     end
-  end
-
-  # rel属性にstylesheetが指定されている<link>要素のhref属性
-  def validate_link(page)
-    entry_title = find_entry_title(page)
-    entry_id = find_entry_id(page)
-    nodes =
-      if @layout
-        page.search("link")
-      else
-        page.search(".entry-content link")
-      end
-    nodes.map { |node|
-      if node['rel'] == 'stylesheet'
-        link_url = node['href']
-        if link_url && link_url.match?(/http:/)
-          InvalidContent.new(page.uri, entry_id, entry_title, 'link', 'href', link_url)
-        end
-      end
-    }.compact
-  end
-
-  def find_entry_title(page)
-    page.search('.entry-title')[0].text.strip
-  end
-
-  def find_entry_id(page)
-    page.search('article.entry')[0]['data-uuid']
   end
 end

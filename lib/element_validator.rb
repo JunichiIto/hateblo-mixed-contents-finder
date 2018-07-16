@@ -15,7 +15,9 @@ class ElementValidator
     nodes.map { |node|
       link_url = node[attr]
       if link_url && link_url.match?(/http:/)
-        InvalidContent.new(page.uri, entry_id, entry_title, tag, attr, link_url)
+        if tag != 'link' || (tag == 'link' && node['rel'] == 'stylesheet')
+          InvalidContent.new(page.uri, entry_id, entry_title, tag, attr, link_url)
+        end
       end
     }.compact
   end

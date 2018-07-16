@@ -63,12 +63,8 @@ class MixedContentsFinder
     agent = Mechanize.new
     page = agent.get(url)
     invalid_contents = VALIDATE_CONDITIONS.flat_map { |tag, attr|
-      validator =
-        if @layout
-          ElementValidator.new(tag, attr, root: '')
-        else
-          ElementValidator.new(tag, attr)
-        end
+      params = @layout ? [tag, attr, root: ''] : [tag, attr]
+      validator = ElementValidator.new(*params)
       validator.validate(page)
     }.compact
 

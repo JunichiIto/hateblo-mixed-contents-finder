@@ -18,10 +18,10 @@ require 'vcr'
 require './lib/mixed_contents_finder'
 require './lib/hatena_client'
 
-# VCR.configure do |config|
-#   config.cassette_library_dir = "spec/fixtures/vcr_cassettes"
-#   config.hook_into :webmock
-# end
+VCR.configure do |config|
+  config.cassette_library_dir = "spec/fixtures/vcr_cassettes"
+  config.hook_into :webmock
+end
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

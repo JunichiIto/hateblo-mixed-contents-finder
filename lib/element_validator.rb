@@ -14,7 +14,7 @@ class ElementValidator
     nodes = page.search("#{@root} #{tag}")
     nodes.map { |node|
       link_url = node[attr]
-      if link_url && link_url.match?(/^http:/)
+      if link_url && link_url.match?(/http:/)
         InvalidContent.new(page.uri, entry_id, entry_title, tag, attr, link_url)
       end
     }.compact

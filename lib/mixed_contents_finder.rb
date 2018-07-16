@@ -4,6 +4,7 @@ require './lib/invalid_content'
 
 class MixedContentsFinder
   SLEEP_SEC = 1
+  SITE_URL = 'https://junichiito-test.hatenablog.com'
 
   def initialize(layout: false)
     @layout = layout
@@ -11,7 +12,7 @@ class MixedContentsFinder
 
   def run(limit = 3)
     invalid_contents = []
-    archive_url = 'http://blog.jnito.com/archive'
+    archive_url = "#{SITE_URL}/archive"
     agent = Mechanize.new
     page = agent.get(archive_url)
 
@@ -88,8 +89,8 @@ class MixedContentsFinder
     nodes.map { |node|
       if node['rel'] == 'stylesheet'
         link_url = node['href']
-        if link_url && link_url.match?(/^http:/)
-          InvalidContent.new(page.uri, entry_id, entry_title, tag, attr, link_url)
+        if link_url && link_url.match?(/http:/)
+          InvalidContent.new(page.uri, entry_id, entry_title, 'link', 'href', link_url)
         end
       end
     }.compact

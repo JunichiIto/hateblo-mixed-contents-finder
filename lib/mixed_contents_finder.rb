@@ -4,15 +4,14 @@ require './lib/invalid_content'
 
 class MixedContentsFinder
   SLEEP_SEC = 1
-  SITE_URL = 'https://junichiito-test.hatenablog.com'
 
   def initialize(layout: false)
     @layout = layout
   end
 
-  def run(limit = 3)
+  def validate_all(site_url, limit: 3)
     invalid_contents = []
-    archive_url = "#{SITE_URL}/archive"
+    archive_url = File.join(site_url, 'archive')
     agent = Mechanize.new
     next_page_link = nil
     counter = 0

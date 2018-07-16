@@ -1,14 +1,16 @@
 describe MixedContentsFinder do
+  let(:site_url) { 'https://junichiito-test.hatenablog.com' }
+
   # HACK: avoid false positive detection for git secrets
   let(:entry_id) { '10257846132' + '601262485' }
 
-  describe 'ページング' do
+  describe '#validate_all' do
     context 'limitなし' do
       example '最後まで処理すること' do
         finder = MixedContentsFinder.new
         expect(finder).to receive(:validate_page).and_return([]).exactly(31).times
         VCR.use_cassette('mixed_contents_finder/no_limit') do
-          finder.run(nil)
+          finder.validate_all(site_url, limit: nil)
         end
       end
     end
@@ -19,7 +21,7 @@ describe MixedContentsFinder do
           finder = MixedContentsFinder.new
           expect(finder).to receive(:validate_page).and_return([]).exactly(3).times
           VCR.use_cassette('mixed_contents_finder/default_limit') do
-            finder.run
+            finder.validate_all(site_url)
           end
         end
       end
@@ -28,14 +30,14 @@ describe MixedContentsFinder do
           finder = MixedContentsFinder.new
           expect(finder).to receive(:validate_page).and_return([]).exactly(5).times
           VCR.use_cassette('mixed_contents_finder/specified_limit') do
-            finder.run(5)
+            finder.validate_all(site_url, limit: 5)
           end
         end
       end
     end
   end
 
-  describe 'validate_page' do
+  describe '#validate_page' do
     context '本文のみ' do
       example '適切に検出すること' do
         finder = MixedContentsFinder.new

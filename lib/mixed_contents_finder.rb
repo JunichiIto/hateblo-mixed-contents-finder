@@ -14,31 +14,26 @@ class MixedContentsFinder
     invalid_contents = []
     archive_url = "#{SITE_URL}/archive"
     agent = Mechanize.new
-    page = agent.get(archive_url)
-
+    next_page_link = nil
     counter = 0
-    loop do
-      if limit && counter > limit
-        break
-      end
-      puts page.uri
-      links = page.search('.entry-title-link')
-      links.each do |link|
-        counter += 1
-        if limit && counter > limit
-          break
+    catch(:exit_loop) do
+      begin
+        list_url = next_page_link ? next_page_link['href'] : archive_url
+        puts "Search in #{list_url}"
+        page = agent.get(list_url)
+        links = page.search('.entry-title-link')
+        links.each do |link|
+          counter += 1
+          if limit && counter > limit
+            throw :exit_loop
+          end
+          url = link['href']
+          invalid_contents += validate_page(url)
         end
-        url = link['href']
-        invalid_contents += validate_page(url)
-      end
-      next_page_link = page.search('.pager-next a')&.first
-      if next_page_link
-        page = agent.get(next_page_link['href'])
-      else
-        puts 'End.'
-        break
-      end
+        next_page_link = page.search('.pager-next a')&.first
+      end while next_page_link
     end
+    puts 'End.'
     invalid_contents
   end
 

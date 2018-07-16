@@ -5,8 +5,8 @@ require './lib/invalid_content'
 class MixedContentsFinder
   SLEEP_SEC = 1
 
-  def initialize(layout: false)
-    @layout = layout
+  def initialize(entire_page: false)
+    @entire_page = entire_page
   end
 
   def validate_all(site_url, limit: 3)
@@ -57,7 +57,7 @@ class MixedContentsFinder
     agent = Mechanize.new
     page = agent.get(url)
     invalid_contents = VALIDATE_CONDITIONS.flat_map { |tag, attr|
-      params = @layout ? [tag, attr, root: ''] : [tag, attr]
+      params = @entire_page ? [tag, attr, ''] : [tag, attr, '.entry-content']
       validator = ElementValidator.new(*params)
       validator.validate(page)
     }.compact

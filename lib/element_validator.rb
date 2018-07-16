@@ -2,7 +2,7 @@ require './lib/invalid_content'
 class ElementValidator
   attr_reader :tag, :attr
 
-  def initialize(tag, attr, root: '.entry-content')
+  def initialize(tag, attr, root)
     @root = root
     @tag = tag
     @attr = attr

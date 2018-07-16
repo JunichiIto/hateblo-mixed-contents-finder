@@ -108,7 +108,7 @@ describe MixedContentsFinder do
     end
     context 'ページ全体' do
       example '適切に検出すること' do
-        finder = MixedContentsFinder.new(layout: true)
+        finder = MixedContentsFinder.new(entire_page: true)
         invalid_contents = nil
         VCR.use_cassette('mixed_contents_finder/validate_page') do
           invalid_contents = finder.validate_page('https://junichiito-test.hatenablog.com/entry/2018/07/15/084229')

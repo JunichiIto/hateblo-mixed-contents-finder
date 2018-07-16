@@ -4,11 +4,11 @@ require 'hatenablog'
 class HatenaClient
   def update_entry(entry_url)
     entry_id = fetch_id(entry_url)
-    Hatenablog::Client.create do |blog|
-      posted_entry = blog.get_entry(entry_id)
+    Hatenablog::Client.create do |blog_client|
+      posted_entry = blog_client.get_entry(entry_id)
       puts "[#{Time.now.strftime("%H:%M:%S")}] Updating #{entry_url} #{posted_entry.title}"
 
-      updated_entry = blog.update_entry(
+      updated_entry = blog_client.update_entry(
         posted_entry.id,
         posted_entry.title,
         posted_entry.content,

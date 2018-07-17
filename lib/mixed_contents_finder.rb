@@ -60,7 +60,7 @@ class MixedContentsFinder
       params = @entire_page ? [tag, attr, ''] : [tag, attr, '.entry-content']
       validator = ElementValidator.new(*params)
       validator.validate(page)
-    }.compact
+    }
 
     invalid_contents.tap do
       sleep SLEEP_SEC

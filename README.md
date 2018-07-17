@@ -35,7 +35,7 @@ https://github.com/kymmt90/hatenablog/blob/master/README.md
 
 ## 使用方法
 
-ここでは http://my-example.hatenablog.com という架空のブログを対象とします。
+ここでは `http://my-example.hatenablog.com` という架空のブログを対象とします。
 
 ### ブログ全体のhttpコンテンツを検証検証する
 

@@ -57,6 +57,8 @@ bundle exec rake 'validate_all[http://my-example.hatenablog.com,1]'
 bundle exec rake 'validate_all[http://my-example.hatenablog.com,1,5]'
 ```
 
+#### 検証する要素や属性について
+
 このタスクは以下の要素や属性を検証します。
 
 - `<img>`要素のsrc属性およびsrcset属性
@@ -71,6 +73,10 @@ bundle exec rake 'validate_all[http://my-example.hatenablog.com,1,5]'
 - `<object>`要素のdata属性
 
 参考: https://smdn.jp/works/tools/HatenaBlogTools/
+
+#### 制限事項
+
+このタスクではサーバーから返却されたHTMLを静的解析するだけです。そのため、JavaScriptやCSSの内部で外部のリソースをHTTPでリクエストしている場合はhttpコンテンツを検出できません。
 
 ### 特定のページのhttpコンテンツを検証する
 

@@ -17,6 +17,7 @@ require 'webmock'
 require 'vcr'
 require './lib/mixed_contents_finder'
 require './lib/hatena_client'
+require './lib/tasks'
 
 VCR.configure do |config|
   config.cassette_library_dir = "spec/fixtures/vcr_cassettes"

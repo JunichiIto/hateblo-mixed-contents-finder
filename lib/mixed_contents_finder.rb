@@ -10,6 +10,7 @@ class MixedContentsFinder
   end
 
   def validate_all(site_url, limit: 3)
+    puts "Validate #{site_url} / entire_page: #{@entire_page}, limit: #{limit || 'none'}"
     invalid_contents = []
     archive_url = File.join(site_url, 'archive')
     agent = Mechanize.new
@@ -32,7 +33,6 @@ class MixedContentsFinder
         next_page_link = page.search('.pager-next a')&.first
       end while next_page_link
     end
-    puts 'End.'
     invalid_contents
   end
 
@@ -52,7 +52,7 @@ class MixedContentsFinder
   ]
 
   def validate_page(url)
-    puts "[#{Time.now.strftime("%H:%M:%S")}] Validate #{url}..."
+    puts "[#{Time.now.strftime("%H:%M:%S")}] Validate #{url}"
 
     agent = Mechanize.new
     page = agent.get(url)

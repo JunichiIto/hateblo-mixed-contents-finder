@@ -17,7 +17,7 @@ Ruby 2.4以下や、Windows環境で正常に動くかどうかは未検証で�
 
 ## セットアップ
 
-Bundlerを使ってgemをインストールします。
+[Bundler](https://bundler.io/)を使ってgemをインストールします。
 
 ```
 bundle install
@@ -109,7 +109,7 @@ NOTE: 予期せぬ問題が起きてエントリの内容が失われた場合�
 準備ができたら、以下のコマンドを実行します。
 
 ```
-bundle exec update_all
+bundle exec rake update_all
 ```
 
 実行するかどうかの確認を求められるので、実行する場合は`yes`を入力してください。

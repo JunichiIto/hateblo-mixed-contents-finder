@@ -23,9 +23,9 @@ class MixedContentsFinder
         page = agent.get(list_url)
         links = page.search('.entry-title-link')
         links.each do |link|
-          if limit && (counter += 1) > limit
-            throw :exit_loop
-          end
+          over_limit = limit && (counter += 1) > limit
+          throw :exit_loop if over_limit
+
           url = link['href']
           invalid_contents += validate_page(url)
         end

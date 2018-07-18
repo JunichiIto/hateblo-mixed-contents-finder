@@ -1,7 +1,7 @@
 require './lib/invalid_content'
 
 class ElementValidator
-  attr_reader :tag, :attr
+  attr_reader :tag, :attr, :root
 
   def initialize(tag, attr, root)
     @tag = tag
@@ -12,7 +12,7 @@ class ElementValidator
   def validate(page)
     entry_title = find_entry_title(page)
     entry_id = find_entry_id(page)
-    nodes = page.search("#{@root} #{tag}")
+    nodes = page.search("#{root} #{tag}")
     nodes.map { |node|
       link_url = node[attr].to_s
       if link_url.include?('http:') && target?(tag, node)

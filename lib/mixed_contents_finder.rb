@@ -3,12 +3,14 @@ require './lib/element_validator'
 require './lib/invalid_content'
 
 class MixedContentsFinder
+  attr_reader :entire_page
+
   def initialize(entire_page: false)
     @entire_page = entire_page
   end
 
   def validate_all(site_url, limit: 3, sleep_sec: 1)
-    puts "Validate #{site_url} / entire_page: #{@entire_page}, limit: #{limit || 'none'}"
+    puts "Validate #{site_url} / entire_page: #{entire_page}, limit: #{limit || 'none'}"
     invalid_contents = []
     archive_url = File.join(site_url, 'archive')
     agent = Mechanize.new
@@ -54,7 +56,7 @@ class MixedContentsFinder
 
     agent = Mechanize.new
     page = agent.get(url)
-    root = @entire_page ? '' : '.entry-content'
+    root = entire_page ? '' : '.entry-content'
     VALIDATE_CONDITIONS.flat_map do |tag, attr|
       validator = ElementValidator.new(tag, attr, root)
       validator.validate(page)

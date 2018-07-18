@@ -11,6 +11,6 @@ class InvalidContent
   end
 
   def to_s
-    [@page_url, @entry_id, @entry_title, @tag, @attr, @link_url].join("\t")
+    [page_url, entry_id, entry_title, tag, attr, link_url].join("\t")
   end
 end

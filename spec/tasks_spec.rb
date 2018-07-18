@@ -112,7 +112,7 @@ describe Tasks do
           Do you update 1 entries? [yes|no]: Completed.
         TEXT
         expect {
-          Tasks.update_all(path)
+          Tasks.update_all(path, sleep_sec: 0)
         }.to output(message).to_stdout
       end
     end

@@ -23,7 +23,7 @@ module Tasks
     end
   end
 
-  def self.update_all(path)
+  def self.update_all(path, sleep_sec: 1)
     count = File.read(path).lines.size
     puts "[WARNING] Please backup your entries before update!!"
     print "Do you update #{count} entries? [yes|no]: "
@@ -33,7 +33,7 @@ module Tasks
     client = HatenaClient.new
     File.foreach(path, chomp: true) do |url|
       client.update_entry(url)
-      sleep 1
+      sleep sleep_sec
     end
     puts 'Completed.'
   end

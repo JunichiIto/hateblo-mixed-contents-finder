@@ -10,7 +10,7 @@ describe MixedContentsFinder do
         finder = MixedContentsFinder.new
         expect(finder).to receive(:validate_page).and_return([]).exactly(31).times
         VCR.use_cassette('mixed_contents_finder/no_limit') do
-          finder.validate_all(site_url, limit: nil)
+          finder.validate_all(site_url, limit: nil, sleep_sec: 0)
         end
       end
     end
@@ -21,7 +21,7 @@ describe MixedContentsFinder do
           finder = MixedContentsFinder.new
           expect(finder).to receive(:validate_page).and_return([]).exactly(3).times
           VCR.use_cassette('mixed_contents_finder/default_limit') do
-            finder.validate_all(site_url)
+            finder.validate_all(site_url, sleep_sec: 0)
           end
         end
       end
@@ -30,7 +30,7 @@ describe MixedContentsFinder do
           finder = MixedContentsFinder.new
           expect(finder).to receive(:validate_page).and_return([]).exactly(5).times
           VCR.use_cassette('mixed_contents_finder/specified_limit') do
-            finder.validate_all(site_url, limit: 5)
+            finder.validate_all(site_url, limit: 5, sleep_sec: 0)
           end
         end
       end

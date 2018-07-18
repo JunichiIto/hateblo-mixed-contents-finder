@@ -19,7 +19,7 @@ class MixedContentsFinder
     catch(:exit_loop) do
       begin
         list_url = next_page_link ? next_page_link['href'] : archive_url
-        puts "Search in #{list_url}"
+        puts "Validating #{list_url}"
         page = agent.get(list_url)
         links = page.search('.entry-title-link')
         links.each do |link|

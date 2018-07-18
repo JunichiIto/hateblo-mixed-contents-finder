@@ -32,15 +32,15 @@ module Tasks
       count = File.read(path).lines.size
       puts "[WARNING] Please backup your entries before update!!"
       print "Do you update #{count} entries? [yes|no]: "
-      res = STDIN.gets.chomp
-      if res == 'yes'
-        client = HatenaClient.new
-        File.foreach(path, chomp: true) do |url|
-          client.update_entry(url)
-          sleep 1
-        end
-        puts 'Completed.'
+      res = STDIN.gets.chomp.downcase
+      return unless res == 'yes'
+
+      client = HatenaClient.new
+      File.foreach(path, chomp: true) do |url|
+        client.update_entry(url)
+        sleep 1
       end
+      puts 'Completed.'
     end
   end
 end

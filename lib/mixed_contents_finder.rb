@@ -23,8 +23,7 @@ class MixedContentsFinder
         page = agent.get(list_url)
         links = page.search('.entry-title-link')
         links.each do |link|
-          counter += 1
-          if limit && counter > limit
+          if limit && (counter += 1) > limit
             throw :exit_loop
           end
           url = link['href']

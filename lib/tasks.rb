@@ -6,9 +6,7 @@ module Tasks
   def self.validate_all(site_url, entire_page, limit, path)
     invalid_contents = MixedContentsFinder.new(entire_page: entire_page).validate_all(site_url, limit: limit)
     FileUtils.rm(path) if File.exist?(path)
-    File.open(path, 'w') do |file|
-      file.puts invalid_contents
-    end
+    File.write(path, invalid_contents.join("\n"))
     if invalid_contents.empty?
       puts 'OK💚'
     else

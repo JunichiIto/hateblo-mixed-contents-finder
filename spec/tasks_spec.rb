@@ -45,7 +45,7 @@ describe Tasks do
           Tasks.validate_all(site_url, entire_page, limit, path)
         }.to output(message).to_stdout
         expect(File.read(path)).to eq \
-          "http://my-example.hatenablog.com/2018/07/17/075334\t10257846132601882016\tLorem Ipsum\timg\tsrc\thttp://example.com/sample.jpg\n"
+          "http://my-example.hatenablog.com/2018/07/17/075334\t10257846132601882016\tLorem Ipsum\timg\tsrc\thttp://example.com/sample.jpg"
       end
     end
   end

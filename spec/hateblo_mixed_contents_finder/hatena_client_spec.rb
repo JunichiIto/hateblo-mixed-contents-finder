@@ -1,5 +1,6 @@
 require 'time'
-describe HatenaClient do
+
+RSpec.describe HatebloMixedContentsFinder::HatenaClient do
   # HACK: avoid false positive detection for git secrets
   let(:entry_id) { '1025784613' + '2601882016' }
 
@@ -39,7 +40,7 @@ describe HatenaClient do
 
   example '正常に更新できる' do
     VCR.use_cassette('hatena_client/blog_response') do
-      HatenaClient.new.update_entry(target_url)
+      HatebloMixedContentsFinder::HatenaClient.new.update_entry(target_url)
     end
   end
 
@@ -50,7 +51,7 @@ describe HatenaClient do
     example '例外が発生する' do
       VCR.use_cassette('hatena_client/blog_response') do
         expect {
-          HatenaClient.new.update_entry(target_url)
+          HatebloMixedContentsFinder::HatenaClient.new.update_entry(target_url)
         }.to raise_error(RuntimeError, /title is changed: Lorem Ipsum => LOREM IPSUM/)
       end
     end
@@ -63,7 +64,7 @@ describe HatenaClient do
     example '例外が発生する' do
       VCR.use_cassette('hatena_client/blog_response') do
         expect {
-          HatenaClient.new.update_entry(target_url)
+          HatebloMixedContentsFinder::HatenaClient.new.update_entry(target_url)
         }.to raise_error(RuntimeError, /content is changed: Hello, world => HELLO, WORLD/)
       end
     end
@@ -76,7 +77,7 @@ describe HatenaClient do
     example '例外が発生する' do
       VCR.use_cassette('hatena_client/blog_response') do
         expect {
-          HatenaClient.new.update_entry(target_url)
+          HatebloMixedContentsFinder::HatenaClient.new.update_entry(target_url)
         }.to raise_error(RuntimeError, /categories is changed: \["foo", "bar"\] => \["foo"\]/)
       end
     end
@@ -89,7 +90,7 @@ describe HatenaClient do
     example '例外が発生する' do
       VCR.use_cassette('hatena_client/blog_response') do
         expect {
-          HatenaClient.new.update_entry(target_url)
+          HatebloMixedContentsFinder::HatenaClient.new.update_entry(target_url)
         }.to raise_error(RuntimeError, /draft is changed: no => yes/)
       end
     end
@@ -102,7 +103,7 @@ describe HatenaClient do
     example '例外が発生する' do
       VCR.use_cassette('hatena_client/blog_response') do
         expect {
-          HatenaClient.new.update_entry(target_url)
+          HatebloMixedContentsFinder::HatenaClient.new.update_entry(target_url)
         }.to raise_error(RuntimeError, /updated is changed: 2018-07-17 12:34:56 \+0900 => 2018-07-17 12:34:57 \+0900/)
       end
     end

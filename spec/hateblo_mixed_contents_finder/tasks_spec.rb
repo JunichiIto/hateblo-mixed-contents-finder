@@ -1,6 +1,6 @@
 require 'tempfile'
 
-describe Tasks do
+RSpec.describe HatebloMixedContentsFinder::Tasks do
   # HACK: avoid false positive detection for git secrets
   let(:entry_id) { '1025784613' + '2601882016' }
 
@@ -11,9 +11,9 @@ describe Tasks do
     let(:path) { Tempfile.open.path }
 
     before do
-      finder = double(MixedContentsFinder)
+      finder = double(HatebloMixedContentsFinder::MixedContentsFinder)
       allow(finder).to receive(:validate_all).with('http://my-example.hatenablog.com', limit: nil).and_return(invalid_contents)
-      allow(MixedContentsFinder).to receive(:new).with(entire_page: false).and_return(finder)
+      allow(HatebloMixedContentsFinder::MixedContentsFinder).to receive(:new).with(entire_page: false).and_return(finder)
     end
 
     context 'エラーがない場合' do
@@ -21,7 +21,7 @@ describe Tasks do
       example 'OKメッセージを表示する' do
         message = "OK💚\n"
         expect {
-          Tasks.validate_all(site_url, entire_page, limit, path)
+          HatebloMixedContentsFinder::Tasks.validate_all(site_url, entire_page, limit, path)
         }.to output(message).to_stdout
         expect(File.read(path)).to eq ''
       end
@@ -29,7 +29,7 @@ describe Tasks do
 
     context 'エラーがある場合' do
       let(:invalid_contents) do
-        content = InvalidContent.new(
+        content = HatebloMixedContentsFinder::InvalidContent.new(
                                   'http://my-example.hatenablog.com/2018/07/17/075334',
                                   entry_id,
                                   'Lorem Ipsum',
@@ -42,7 +42,7 @@ describe Tasks do
       example 'ファイルにエラー内容を出力する' do
         message = "1 errors found. Please open result.txt.\n"
         expect {
-          Tasks.validate_all(site_url, entire_page, limit, path)
+          HatebloMixedContentsFinder::Tasks.validate_all(site_url, entire_page, limit, path)
         }.to output(message).to_stdout
         expect(File.read(path)).to eq \
           "http://my-example.hatenablog.com/2018/07/17/075334\t10257846132601882016\tLorem Ipsum\timg\tsrc\thttp://example.com/sample.jpg"
@@ -55,9 +55,9 @@ describe Tasks do
     let(:entire_page) { false }
 
     before do
-      finder = double(MixedContentsFinder)
+      finder = double(HatebloMixedContentsFinder::MixedContentsFinder)
       allow(finder).to receive(:validate_page).with('http://my-example.hatenablog.com/2018/07/17/075334').and_return(invalid_contents)
-      allow(MixedContentsFinder).to receive(:new).with(entire_page: false).and_return(finder)
+      allow(HatebloMixedContentsFinder::MixedContentsFinder).to receive(:new).with(entire_page: false).and_return(finder)
     end
 
     context 'エラーがない場合' do
@@ -65,14 +65,14 @@ describe Tasks do
       example 'OKメッセージを表示する' do
         message = "OK💚\n"
         expect {
-          Tasks.validate_page(entry_url, entire_page)
+          HatebloMixedContentsFinder::Tasks.validate_page(entry_url, entire_page)
         }.to output(message).to_stdout
       end
     end
 
     context 'エラーがある場合' do
       let(:invalid_contents) do
-        content = InvalidContent.new(
+        content = HatebloMixedContentsFinder::InvalidContent.new(
           'http://my-example.hatenablog.com/2018/07/17/075334',
           entry_id,
           'Lorem Ipsum',
@@ -85,7 +85,7 @@ describe Tasks do
       example 'エラー内容を出力する' do
         message = "http://my-example.hatenablog.com/2018/07/17/075334\t10257846132601882016\tLorem Ipsum\timg\tsrc\thttp://example.com/sample.jpg\n"
         expect {
-          Tasks.validate_page(entry_url, entire_page)
+          HatebloMixedContentsFinder::Tasks.validate_page(entry_url, entire_page)
         }.to output(message).to_stdout
       end
     end
@@ -100,9 +100,9 @@ describe Tasks do
       end
     end
     before do
-      client = double(HatenaClient)
+      client = double(HatebloMixedContentsFinder::HatenaClient)
       allow(client).to receive(:update_entry).with('http://my-example.hatenablog.com/2018/07/17/075334')
-      allow(HatenaClient).to receive(:new).and_return(client)
+      allow(HatebloMixedContentsFinder::HatenaClient).to receive(:new).and_return(client)
     end
     context 'yesを入力した場合' do
       example '更新を実行する' do
@@ -112,7 +112,7 @@ describe Tasks do
           Do you update 1 entries? [yes|no]: Completed.
         TEXT
         expect {
-          Tasks.update_all(path, sleep_sec: 0)
+          HatebloMixedContentsFinder::Tasks.update_all(path, sleep_sec: 0)
         }.to output(message).to_stdout
       end
     end
@@ -124,7 +124,7 @@ describe Tasks do
           Do you update 1 entries? [yes|no]:
         TEXT
         expect {
-          Tasks.update_all(path)
+          HatebloMixedContentsFinder::Tasks.update_all(path)
         }.to output(message).to_stdout
       end
     end

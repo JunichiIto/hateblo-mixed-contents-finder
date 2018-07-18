@@ -21,6 +21,8 @@ class HatenaClient
     end
   end
 
+  private
+
   def assert_same(posted_entry, updated_entry)
     %w(title content categories updated draft).each do |attr|
       original = posted_entry.send(attr)

@@ -6,15 +6,15 @@ module Tasks
   class << self
     def validate_all(site_url, entire_page, limit, path)
       invalid_contents = MixedContentsFinder.new(entire_page: entire_page).validate_all(site_url, limit: limit)
+      if File.exist?(path)
+        FileUtils.rm(path)
+      end
+      File.open(path, 'w') do |file|
+        file.puts invalid_contents
+      end
       if invalid_contents.empty?
         puts 'OK💚'
       else
-        if File.exist?(path)
-          FileUtils.rm(path)
-        end
-        File.open(path, 'w') do |file|
-          file.puts invalid_contents
-        end
         puts "#{invalid_contents.size} errors found. Please open result.txt."
       end
     end

@@ -4,48 +4,6 @@
 
 Helper scripts for Hatena blog HTTPS migration
 
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'hateblo-mixed-contents-finder'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install hateblo-mixed-contents-finder
-
-## Usage
-
-Describe later in Japanese.
-
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/JunichiIto/hateblo-mixed-contents-finder. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
-
-## License
-
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the Dev::Gem::Sandbox project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/JunichiIto/hateblo-mixed-contents-finder/blob/master/CODE_OF_CONDUCT.md).
-
-----
-
-# hateblo-mixed-contents-finder
-
 はてなブログをHTTP配信からHTTPS配信に移行する際に利用すると便利なヘルパースクリプト集です。
 
 参考: [自分のブログ（独自ドメインのはてなブログ）をHTTPS配信に切り替えました \- give IT a try](https://blog.jnito.com/entry/2018/07/16/084116)
@@ -61,6 +19,12 @@ Ruby 2.3以上 + Mac環境で動作確認しています。
 Ruby 2.2以下や、Windows環境で正常に動くかどうかは未検証です。
 
 ## セットアップ
+
+以下のコマンドを使ってgemをインストールします。
+
+```
+gem install hateblo-mixed-contents-finder
+```
 
 過去記事の更新を実行する場合は`config.yml`の設定が必要になります。以下のページを参照して、自分のOAuthクレデンシャルを`config.yml`に設定してください。
 

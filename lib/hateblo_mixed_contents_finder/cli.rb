@@ -31,6 +31,7 @@ module HatebloMixedContentsFinder
       if invalid_contents.empty?
         puts 'OK💚'
       else
+        puts
         puts invalid_contents
       end
     end

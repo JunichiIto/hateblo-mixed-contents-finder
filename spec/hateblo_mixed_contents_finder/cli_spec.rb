@@ -83,7 +83,7 @@ RSpec.describe HatebloMixedContentsFinder::CLI do
         [content]
       end
       example 'エラー内容を出力する' do
-        message = "http://my-example.hatenablog.com/2018/07/17/075334\t10257846132601882016\tLorem Ipsum\timg\tsrc\thttp://example.com/sample.jpg\n"
+        message = "\nhttp://my-example.hatenablog.com/2018/07/17/075334\t10257846132601882016\tLorem Ipsum\timg\tsrc\thttp://example.com/sample.jpg\n"
         expect {
           HatebloMixedContentsFinder::CLI.new.invoke(:validate_entry, [entry_url], { entire_page: entire_page })
         }.to output(message).to_stdout

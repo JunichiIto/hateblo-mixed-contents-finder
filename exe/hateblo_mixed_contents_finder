@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -wU
+#!/usr/bin/env ruby
 
 require 'hateblo_mixed_contents_finder'
 

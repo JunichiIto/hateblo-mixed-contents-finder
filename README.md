@@ -121,23 +121,23 @@ bundle exec rake 'validate_all[http://my-example.hatenablog.com,1,5]'
 
 このタスクではサーバーから返却されたHTMLを静的解析するだけです。そのため、JavaScriptやCSSの内部で外部のリソースをHTTPでリクエストしている場合はhttpコンテンツを検出できません。
 
-### 特定のページのhttpコンテンツを検証する
+### 特定のエントリのhttpコンテンツを検証する
 
-以下のコマンドを実行すると、特定のページのhttpコンテンツを検証します。検証結果は標準出力に出力されます。
+以下のコマンドを実行すると、特定のエントリのhttpコンテンツを検証します。検証結果は標準出力に出力されます。
 
 ```
-bundle exec rake 'validate_page[http://my-example.hatenablog.com/2018/07/17/075334]'
+bundle exec rake 'validate_entry[http://my-example.hatenablog.com/2018/07/17/075334]'
 ```
 
 本文だけでなく、ページ全体を検証の対象にしたい場合は、第2引数に`1`を指定します。
 
 ```
-bundle exec rake 'validate_page[http://my-example.hatenablog.com/2018/07/17/075334,1]'
+bundle exec rake 'validate_entry[http://my-example.hatenablog.com/2018/07/17/075334,1]'
 ```
 
 ### 過去記事に対して無変更で「更新」だけを実行する
 
-`invalid_entries.txt`というテキストファイルに更新したいページのURLを行区切りで記述します。URLが重複するとそのぶん繰り返し更新が走るため、重複しないように記述する方が望ましいです。
+`invalid_entries.txt`というテキストファイルに更新したいエントリのURLを行区切りで記述します。URLが重複するとそのぶん繰り返し更新が走るため、重複しないように記述する方が望ましいです。
 
 ```
 http://my-example.hatenablog.com/2018/07/17/075334

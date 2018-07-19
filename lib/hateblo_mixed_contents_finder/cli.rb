@@ -22,12 +22,12 @@ module HatebloMixedContentsFinder
       end
     end
 
-    desc "validate_page ENTRY_URL", "Find http contents in a specified entry."
+    desc "validate_entry ENTRY_URL", "Find http contents in a specified entry."
     option :entire_page, type: :boolean, default: false, desc: "Validate entire page or content part only."
-    def validate_page(entry_url)
+    def validate_entry(entry_url)
       entire_page = options[:entire_page]
 
-      invalid_contents = MixedContentsFinder.new(entire_page: entire_page).validate_page(entry_url)
+      invalid_contents = MixedContentsFinder.new(entire_page: entire_page).validate_entry(entry_url)
       if invalid_contents.empty?
         puts 'OK💚'
       else

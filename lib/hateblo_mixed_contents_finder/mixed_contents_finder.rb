@@ -26,7 +26,7 @@ module HatebloMixedContentsFinder
             throw :exit_loop if over_limit
 
             url = link['href']
-            invalid_contents += validate_page(url)
+            invalid_contents += validate_entry(url)
             sleep sleep_sec
           end
           next_page_link = page.search('.pager-next a')&.first
@@ -50,7 +50,7 @@ module HatebloMixedContentsFinder
       %w(link href),
     ]
 
-    def validate_page(url)
+    def validate_entry(url)
       puts "[#{Time.now.strftime("%H:%M:%S")}] Validate #{url}"
 
       agent = Mechanize.new

@@ -8,7 +8,7 @@ RSpec.describe HatebloMixedContentsFinder::MixedContentsFinder do
     context 'limitなし' do
       example '最後まで処理すること' do
         finder = HatebloMixedContentsFinder::MixedContentsFinder.new
-        expect(finder).to receive(:validate_page).and_return([]).exactly(31).times
+        expect(finder).to receive(:validate_entry).and_return([]).exactly(31).times
         VCR.use_cassette('mixed_contents_finder/no_limit') do
           finder.validate_all(site_url, limit: nil, sleep_sec: 0)
         end
@@ -19,7 +19,7 @@ RSpec.describe HatebloMixedContentsFinder::MixedContentsFinder do
       context 'デフォルト値' do
         example '3件まで' do
           finder = HatebloMixedContentsFinder::MixedContentsFinder.new
-          expect(finder).to receive(:validate_page).and_return([]).exactly(3).times
+          expect(finder).to receive(:validate_entry).and_return([]).exactly(3).times
           VCR.use_cassette('mixed_contents_finder/default_limit') do
             finder.validate_all(site_url, sleep_sec: 0)
           end
@@ -28,7 +28,7 @@ RSpec.describe HatebloMixedContentsFinder::MixedContentsFinder do
       context '回数を指定' do
         example 'limitに応じて中断されること' do
           finder = HatebloMixedContentsFinder::MixedContentsFinder.new
-          expect(finder).to receive(:validate_page).and_return([]).exactly(5).times
+          expect(finder).to receive(:validate_entry).and_return([]).exactly(5).times
           VCR.use_cassette('mixed_contents_finder/specified_limit') do
             finder.validate_all(site_url, limit: 5, sleep_sec: 0)
           end
@@ -37,13 +37,13 @@ RSpec.describe HatebloMixedContentsFinder::MixedContentsFinder do
     end
   end
 
-  describe '#validate_page' do
+  describe '#validate_entry' do
     context '本文のみ' do
       example '適切に検出すること' do
         finder = HatebloMixedContentsFinder::MixedContentsFinder.new
         invalid_contents = nil
-        VCR.use_cassette('mixed_contents_finder/validate_page') do
-          invalid_contents = finder.validate_page('https://junichiito-test.hatenablog.com/entry/2018/07/15/084229')
+        VCR.use_cassette('mixed_contents_finder/validate_entry') do
+          invalid_contents = finder.validate_entry('https://junichiito-test.hatenablog.com/entry/2018/07/15/084229')
         end
         expect(invalid_contents.size).to eq 11
         expect(invalid_contents[0]).to have_attributes(
@@ -110,8 +110,8 @@ RSpec.describe HatebloMixedContentsFinder::MixedContentsFinder do
       example '適切に検出すること' do
         finder = HatebloMixedContentsFinder::MixedContentsFinder.new(entire_page: true)
         invalid_contents = nil
-        VCR.use_cassette('mixed_contents_finder/validate_page') do
-          invalid_contents = finder.validate_page('https://junichiito-test.hatenablog.com/entry/2018/07/15/084229')
+        VCR.use_cassette('mixed_contents_finder/validate_entry') do
+          invalid_contents = finder.validate_entry('https://junichiito-test.hatenablog.com/entry/2018/07/15/084229')
         end
         expect(invalid_contents.size).to eq 12
         expect(invalid_contents[0]).to have_attributes(

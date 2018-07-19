@@ -50,13 +50,13 @@ RSpec.describe HatebloMixedContentsFinder::CLI do
     end
   end
 
-  describe '#validate_page' do
+  describe '#validate_entry' do
     let(:entry_url) { 'http://my-example.hatenablog.com/2018/07/17/075334' }
     let(:entire_page) { false }
 
     before do
       finder = double(HatebloMixedContentsFinder::MixedContentsFinder)
-      allow(finder).to receive(:validate_page).with('http://my-example.hatenablog.com/2018/07/17/075334').and_return(invalid_contents)
+      allow(finder).to receive(:validate_entry).with('http://my-example.hatenablog.com/2018/07/17/075334').and_return(invalid_contents)
       allow(HatebloMixedContentsFinder::MixedContentsFinder).to receive(:new).with(entire_page: false).and_return(finder)
     end
 
@@ -65,7 +65,7 @@ RSpec.describe HatebloMixedContentsFinder::CLI do
       example 'OKメッセージを表示する' do
         message = "OK💚\n"
         expect {
-          HatebloMixedContentsFinder::CLI.new.invoke(:validate_page, [entry_url], { entire_page: entire_page })
+          HatebloMixedContentsFinder::CLI.new.invoke(:validate_entry, [entry_url], { entire_page: entire_page })
         }.to output(message).to_stdout
       end
     end
@@ -85,7 +85,7 @@ RSpec.describe HatebloMixedContentsFinder::CLI do
       example 'エラー内容を出力する' do
         message = "http://my-example.hatenablog.com/2018/07/17/075334\t10257846132601882016\tLorem Ipsum\timg\tsrc\thttp://example.com/sample.jpg\n"
         expect {
-          HatebloMixedContentsFinder::CLI.new.invoke(:validate_page, [entry_url], { entire_page: entire_page })
+          HatebloMixedContentsFinder::CLI.new.invoke(:validate_entry, [entry_url], { entire_page: entire_page })
         }.to output(message).to_stdout
       end
     end

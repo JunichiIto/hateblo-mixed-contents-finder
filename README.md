@@ -56,9 +56,9 @@ Everyone interacting in the Dev::Gem::Sandbox project’s codebases, issue track
 
 ## 動作環境
 
-Ruby 2.5.1 + Mac環境で動作確認しています。
+Ruby 2.3以上 + Mac環境で動作確認しています。
 
-Ruby 2.4以下や、Windows環境で正常に動くかどうかは未検証です。
+Ruby 2.2以下や、Windows環境で正常に動くかどうかは未検証です。
 
 ## セットアップ
 

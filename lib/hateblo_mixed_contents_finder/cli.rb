@@ -50,8 +50,8 @@ module HatebloMixedContentsFinder
       return unless res == 'yes'
 
       client = HatenaClient.new
-      File.foreach(path, chomp: true) do |url|
-        client.update_entry(url)
+      File.foreach(path) do |url|
+        client.update_entry(url.chomp)
         sleep sleep_sec
       end
       puts 'Completed.'

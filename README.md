@@ -1,5 +1,7 @@
 # hateblo-mixed-contents-finder
 
+[![Gem Version](https://badge.fury.io/rb/hateblo-mixed-contents-finder.svg)](https://badge.fury.io/rb/hateblo-mixed-contents-finder) [![Build Status](https://travis-ci.org/JunichiIto/hateblo-mixed-contents-finder.svg?branch=master)](https://travis-ci.org/JunichiIto/hateblo-mixed-contents-finder)
+
 Helper scripts for Hatena blog HTTPS migration
 
 ## Installation

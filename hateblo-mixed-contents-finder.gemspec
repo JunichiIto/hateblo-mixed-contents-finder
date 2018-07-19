@@ -22,12 +22,13 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  spec.add_runtime_dependency "mechanize", "~> 2.7"
+  spec.add_runtime_dependency "hatenablog", "~> 0.5"
+  spec.add_runtime_dependency "thor", "~> 0.20"
+
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "vcr", "~> 4.0"
   spec.add_development_dependency "webmock", "~> 3.4"
-
-  spec.add_runtime_dependency "mechanize", "~> 2.7"
-  spec.add_runtime_dependency "hatenablog", "~> 0.5"
 end

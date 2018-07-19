@@ -1,6 +1,6 @@
 require 'tempfile'
 
-RSpec.describe HatebloMixedContentsFinder::Tasks do
+RSpec.describe HatebloMixedContentsFinder::CLI do
   # HACK: avoid false positive detection for git secrets
   let(:entry_id) { '1025784613' + '2601882016' }
 
@@ -21,7 +21,7 @@ RSpec.describe HatebloMixedContentsFinder::Tasks do
       example 'OKメッセージを表示する' do
         message = "OK💚\n"
         expect {
-          HatebloMixedContentsFinder::Tasks.validate_all(site_url, entire_page, limit, path)
+          HatebloMixedContentsFinder::CLI.new.invoke(:validate_all, [site_url], { entire_page: entire_page, limit: limit, path: path })
         }.to output(message).to_stdout
         expect(File.read(path)).to eq ''
       end
@@ -42,7 +42,7 @@ RSpec.describe HatebloMixedContentsFinder::Tasks do
       example 'ファイルにエラー内容を出力する' do
         message = "1 errors found. Please open result.txt.\n"
         expect {
-          HatebloMixedContentsFinder::Tasks.validate_all(site_url, entire_page, limit, path)
+          HatebloMixedContentsFinder::CLI.new.invoke(:validate_all, [site_url], { entire_page: entire_page, limit: limit, path: path })
         }.to output(message).to_stdout
         expect(File.read(path)).to eq \
           "http://my-example.hatenablog.com/2018/07/17/075334\t10257846132601882016\tLorem Ipsum\timg\tsrc\thttp://example.com/sample.jpg"
@@ -65,7 +65,7 @@ RSpec.describe HatebloMixedContentsFinder::Tasks do
       example 'OKメッセージを表示する' do
         message = "OK💚\n"
         expect {
-          HatebloMixedContentsFinder::Tasks.validate_page(entry_url, entire_page)
+          HatebloMixedContentsFinder::CLI.new.invoke(:validate_page, [entry_url], { entire_page: entire_page })
         }.to output(message).to_stdout
       end
     end
@@ -85,7 +85,7 @@ RSpec.describe HatebloMixedContentsFinder::Tasks do
       example 'エラー内容を出力する' do
         message = "http://my-example.hatenablog.com/2018/07/17/075334\t10257846132601882016\tLorem Ipsum\timg\tsrc\thttp://example.com/sample.jpg\n"
         expect {
-          HatebloMixedContentsFinder::Tasks.validate_page(entry_url, entire_page)
+          HatebloMixedContentsFinder::CLI.new.invoke(:validate_page, [entry_url], { entire_page: entire_page })
         }.to output(message).to_stdout
       end
     end
@@ -112,7 +112,7 @@ RSpec.describe HatebloMixedContentsFinder::Tasks do
           Do you update 1 entries? [yes|no]: Completed.
         TEXT
         expect {
-          HatebloMixedContentsFinder::Tasks.update_all(path, sleep_sec: 0)
+          HatebloMixedContentsFinder::CLI.new.invoke(:update_all, [], { sleep_sec: 0, path: path })
         }.to output(message).to_stdout
       end
     end
@@ -124,7 +124,7 @@ RSpec.describe HatebloMixedContentsFinder::Tasks do
           Do you update 1 entries? [yes|no]:
         TEXT
         expect {
-          HatebloMixedContentsFinder::Tasks.update_all(path)
+          HatebloMixedContentsFinder::CLI.new.invoke(:update_all, [], { path: path })
         }.to output(message).to_stdout
       end
     end

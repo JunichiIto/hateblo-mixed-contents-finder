@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby -wU
+
+require 'hateblo_mixed_contents_finder'
+
+HatebloMixedContentsFinder::CLI.start(ARGV)

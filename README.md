@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Describe later in Japanese.
 
 ## Development
 
@@ -60,19 +60,7 @@ Ruby 2.4以下や、Windows環境で正常に動くかどうかは未検証で�
 
 ## セットアップ
 
-[Bundler](https://bundler.io/)を使ってgemをインストールします。
-
-```
-bundle install
-```
-
-テスト（RSpec）がパスすればOKです。
-
-```
-bundle exec rspec
-```
-
-過去記事の更新を実行する場合は`config.yml`の設定も必要になります。以下のページを参照して、自分のOAuthクレデンシャルを`config.yml`に設定してください。
+過去記事の更新を実行する場合は`config.yml`の設定が必要になります。以下のページを参照して、自分のOAuthクレデンシャルを`config.yml`に設定してください。
 
 https://github.com/kymmt90/hatenablog/blob/master/README.md
 
@@ -85,19 +73,19 @@ https://github.com/kymmt90/hatenablog/blob/master/README.md
 以下コマンドを実行すると、`result.txt`に検証結果（見つかったhttpコンテンツの一覧）が保存されます。ファイルはタブ区切りになっているので、Excel等にコピー＆ペーストで貼り付けることができます。
 
 ```
-bundle exec rake 'validate_all[http://my-example.hatenablog.com]'
+hateblo_mixed_contents_finder validate_all http://my-example.hatenablog.com
 ```
 
-本文だけでなく、ページ全体を検証の対象にしたい場合は、第2引数に`1`を指定します。
+本文だけでなく、ページ全体を検証の対象にしたい場合は、`--entire-page`オプションを指定します。
 
 ```
-bundle exec rake 'validate_all[http://my-example.hatenablog.com,1]'
+hateblo_mixed_contents_finder validate_all http://my-example.hatenablog.com --entire-page
 ```
 
-エントリが多くて時間がかかる場合は第3引数に上限値を指定します。
+エントリが多くて時間がかかる場合は`--limit`オプションを指定します。
 
 ```
-bundle exec rake 'validate_all[http://my-example.hatenablog.com,1,5]'
+hateblo_mixed_contents_finder validate_all http://my-example.hatenablog.com --limit=5
 ```
 
 #### 検証する要素や属性について
@@ -126,13 +114,13 @@ bundle exec rake 'validate_all[http://my-example.hatenablog.com,1,5]'
 以下のコマンドを実行すると、特定のエントリのhttpコンテンツを検証します。検証結果は標準出力に出力されます。
 
 ```
-bundle exec rake 'validate_entry[http://my-example.hatenablog.com/2018/07/17/075334]'
+hateblo_mixed_contents_finder validate_entry http://my-example.hatenablog.com/2018/07/17/075334
 ```
 
-本文だけでなく、ページ全体を検証の対象にしたい場合は、第2引数に`1`を指定します。
+本文だけでなく、ページ全体を検証の対象にしたい場合は、`--entire-page`オプションを指定します。
 
 ```
-bundle exec rake 'validate_entry[http://my-example.hatenablog.com/2018/07/17/075334,1]'
+hateblo_mixed_contents_finder validate_entry http://my-example.hatenablog.com/2018/07/17/075334 --entire-page
 ```
 
 ### 過去記事に対して無変更で「更新」だけを実行する
@@ -152,7 +140,7 @@ NOTE: 予期せぬ問題が起きてエントリの内容が失われた場合�
 準備ができたら、以下のコマンドを実行します。
 
 ```
-bundle exec rake update_all
+hateblo_mixed_contents_finder update_all
 ```
 
 実行するかどうかの確認を求められるので、実行する場合は`yes`を入力してください。

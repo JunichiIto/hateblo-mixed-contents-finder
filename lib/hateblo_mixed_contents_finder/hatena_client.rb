@@ -3,9 +3,10 @@ require 'hatenablog'
 
 module HatebloMixedContentsFinder
   class HatenaClient
-    def update_entry(entry_url)
+    def update_entry(entry_url, config_file: nil)
       entry_id = fetch_id(entry_url)
-      Hatenablog::Client.create do |blog_client|
+      params = config_file ? [config_file] : []
+      Hatenablog::Client.create(*params) do |blog_client|
         posted_entry = blog_client.get_entry(entry_id)
         puts "[#{Time.now.strftime("%H:%M:%S")}] Updating #{entry_url} #{posted_entry.title}"
 

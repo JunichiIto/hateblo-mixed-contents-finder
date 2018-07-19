@@ -40,7 +40,7 @@ RSpec.describe HatebloMixedContentsFinder::HatenaClient do
 
   example '正常に更新できる' do
     VCR.use_cassette('hatena_client/blog_response') do
-      HatebloMixedContentsFinder::HatenaClient.new.update_entry(target_url)
+      HatebloMixedContentsFinder::HatenaClient.new.update_entry(target_url, config_file: './config.yml.sample')
     end
   end
 
@@ -51,7 +51,7 @@ RSpec.describe HatebloMixedContentsFinder::HatenaClient do
     example '例外が発生する' do
       VCR.use_cassette('hatena_client/blog_response') do
         expect {
-          HatebloMixedContentsFinder::HatenaClient.new.update_entry(target_url)
+          HatebloMixedContentsFinder::HatenaClient.new.update_entry(target_url, config_file: './config.yml.sample')
         }.to raise_error(RuntimeError, /title is changed: Lorem Ipsum => LOREM IPSUM/)
       end
     end
@@ -64,7 +64,7 @@ RSpec.describe HatebloMixedContentsFinder::HatenaClient do
     example '例外が発生する' do
       VCR.use_cassette('hatena_client/blog_response') do
         expect {
-          HatebloMixedContentsFinder::HatenaClient.new.update_entry(target_url)
+          HatebloMixedContentsFinder::HatenaClient.new.update_entry(target_url, config_file: './config.yml.sample')
         }.to raise_error(RuntimeError, /content is changed: Hello, world => HELLO, WORLD/)
       end
     end
@@ -77,7 +77,7 @@ RSpec.describe HatebloMixedContentsFinder::HatenaClient do
     example '例外が発生する' do
       VCR.use_cassette('hatena_client/blog_response') do
         expect {
-          HatebloMixedContentsFinder::HatenaClient.new.update_entry(target_url)
+          HatebloMixedContentsFinder::HatenaClient.new.update_entry(target_url, config_file: './config.yml.sample')
         }.to raise_error(RuntimeError, /categories is changed: \["foo", "bar"\] => \["foo"\]/)
       end
     end
@@ -90,7 +90,7 @@ RSpec.describe HatebloMixedContentsFinder::HatenaClient do
     example '例外が発生する' do
       VCR.use_cassette('hatena_client/blog_response') do
         expect {
-          HatebloMixedContentsFinder::HatenaClient.new.update_entry(target_url)
+          HatebloMixedContentsFinder::HatenaClient.new.update_entry(target_url, config_file: './config.yml.sample')
         }.to raise_error(RuntimeError, /draft is changed: no => yes/)
       end
     end
@@ -103,7 +103,7 @@ RSpec.describe HatebloMixedContentsFinder::HatenaClient do
     example '例外が発生する' do
       VCR.use_cassette('hatena_client/blog_response') do
         expect {
-          HatebloMixedContentsFinder::HatenaClient.new.update_entry(target_url)
+          HatebloMixedContentsFinder::HatenaClient.new.update_entry(target_url, config_file: './config.yml.sample')
         }.to raise_error(RuntimeError, /updated is changed: 2018-07-17 12:34:56 \+0900 => 2018-07-17 12:34:57 \+0900/)
       end
     end

@@ -99,6 +99,10 @@ http://my-example.hatenablog.com/2018/07/13/123434
 http://my-example.hatenablog.com/2018/06/27/053436
 ```
 
+`invalid_entries.txt`を作成する方法は任意ですが、次のように「ExcelからVimに貼り付けて`:sort u`を実行する」という方法で作成することができます。
+
+![teylqrgpmn](https://user-images.githubusercontent.com/1148320/43492276-2f8cb06a-9563-11e8-8594-42cb666a2df2.gif)
+
 また、前述の「セットアップ」に書いた`config.yml`も設定してください。
 
 NOTE: 予期せぬ問題が起きてエントリの内容が失われた場合に備え、全エントリを事前に[バックアップ](http://staff.hatenablog.com/entry/2014/08/22/180000)しておくことをお勧めします。
